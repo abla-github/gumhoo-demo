@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: archer
+  post_id: orange
+  content: "Content One"
+
+two:
+  user: lana
+  post: tau_manifesto
+  content: "Content Two"

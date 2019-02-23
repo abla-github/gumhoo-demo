@@ -12,7 +12,7 @@ class PostsInterfaceTest < ActionDispatch::IntegrationTest
     assert_select 'div.pagination'
     assert_select 'input[type=text]'
     # Invalid submission
-    link = "http://books.com.tw/products/F013709987"
+    link = "https://books.com.tw/products/F013709987"
     assert_no_difference 'Post.count' do
       post posts_path, post: { title:   "",
                                content: "",

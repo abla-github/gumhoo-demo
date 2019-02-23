@@ -30,5 +30,17 @@
     <div>
       <%= simple_format(@post.content) %>
     </div>
+    <div>
+      <hr>
+      <h3>Comments</h3>
+      <%= form_for([@post, @comment], remote: true) do |f| %>
+        <%= f.text_area :content, class: "form-control", rows: "3", placeholder: "Give a comment HERE" %>
+        <%= f.submit "Submit", class: "btn btn-primary" %>
+      <% end %>
+      
+      <div id="comments" class="row-space-top-2">
+        <%= render @post.comments %>
+      </div>
+    </div>
   </div>
 </div>
