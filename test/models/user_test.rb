@@ -85,17 +85,35 @@ class UserTest < ActiveSupport::TestCase
   
   test "associated posts should be destroyed" do
     @user.save
-    @user.posts.create!(title:    "title",
-                        content:  "Lorem ipsum",
-                        price:    10)
+    @user.posts.create!(title:   "title",
+                        content: "Lorem ipsum",
+                        price:   10)
     assert_difference 'Post.count', -1 do
+      @user.destroy
+    end
+  end
+  
+  test "has a avatar url" do
+    gravatar_id = Digest::MD5::hexdigest(@user.email.downcase)
+    avatar_url = "https://secure.gravatar.com/avatar/#{gravatar_id}?s=80"
+    
+    assert_equal @user.avatar_url, avatar_url
+  end
+  
+  test "associated comments should be destroyed" do
+    @user.save
+    post = @user.posts.create!(title:   "title",
+                               content: "Lorem ipsum",
+                               price:   10)
+    post.comments.create(content: "content", user: @user)
+    assert_difference 'Comment.count', -1 do
       @user.destroy
     end
   end
   
   test "should follow and unfollow a user" do
     abla = users(:abla)
-    archer  = users(:archer)
+    archer = users(:archer)
     assert_not abla.following?(archer)
     abla.follow(archer)
     assert abla.following?(archer)
@@ -105,9 +123,9 @@ class UserTest < ActiveSupport::TestCase
   end
   
   test "feed should have the right posts" do
-    abla    = users(:abla)
-    archer  = users(:archer)
-    lana    = users(:lana)
+    abla   = users(:abla)
+    archer = users(:archer)
+    lana   = users(:lana)
     # Posts from followed user
     lana.posts.each do |post_following|
       assert abla.feed.include?(post_following)

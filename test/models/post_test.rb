@@ -5,10 +5,10 @@ class PostTest < ActiveSupport::TestCase
   def setup
     @user = users(:abla)
     # This code is not idiomatically correct.
-    @post = @user.posts.build(title:    "My post",
-                              content:  "Lorem ipsum",
-                              price:    10,
-                              link:     "https://tw.yahoo.com")
+    @post = @user.posts.build(title:   "My post",
+                              content: "Lorem ipsum",
+                              price:   10,
+                              link:    "https://tw.yahoo.com")
   end
 
   test "should be valid" do
@@ -42,5 +42,13 @@ class PostTest < ActiveSupport::TestCase
   
   test "order should be most recent first" do
     assert_equal posts(:most_recent), Post.first
+  end
+  
+  test "associated comments should be destroyed" do
+    @post.save
+    @post.comments.create(content: "content", user: @user)
+    assert_difference 'Comment.count', -1 do
+      @post.destroy
+    end
   end
 end

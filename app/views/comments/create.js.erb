@@ -1,0 +1,17 @@
+var comment = $("<div>", { class: "media" });
+comment.append(
+  $("<div>", { class: "media-left" }).append(
+    $('<img/>', { class: "img-circle", src: "<%= @comment.user.avatar_url(45) %>" })
+  )
+).append(
+  $("<div>", { class: "media-body" }).append(
+    $("<div>", { class: "media-heading" }).append(
+      $("<h4>", { class: "media-heading", text: "<%= @comment.content %>" })
+    ).append(
+      "Posted <%= time_ago_in_words(@comment.created_at) %> ago."
+    )
+  )
+);
+
+$("#comments").append(comment);
+$("#comment_content").val('');

@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   has_many :posts, dependent: :destroy
   has_many :likes, dependent: :destroy
+  has_many :comments, dependent: :destroy
   has_many :active_relationships,  class_name:  "Relationship",
                                    foreign_key: "follower_id",
                                    dependent:   :destroy
@@ -122,6 +123,11 @@ class User < ActiveRecord::Base
   # Returns true if the current user is liking the post.
   def liking?(post)
     liking.include?(post)
+  end
+  
+  def avatar_url(size = 80)
+    gravatar_id = Digest::MD5::hexdigest(email.downcase)
+    "https://secure.gravatar.com/avatar/#{gravatar_id}?s=#{size}"
   end
 
   private
