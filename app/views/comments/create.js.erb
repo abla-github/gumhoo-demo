@@ -1,4 +1,4 @@
-var comment = $("<div>", { class: "media" });
+var comment = $("<div>", { class: "media comment-<%= @comment.id %>" });
 comment.append(
   $("<div>", { class: "media-left" }).append(
     $('<img/>', { class: "img-circle", src: "<%= @comment.user.avatar_url(45) %>" })
@@ -6,7 +6,21 @@ comment.append(
 ).append(
   $("<div>", { class: "media-body" }).append(
     $("<div>", { class: "media-heading" }).append(
-      $("<h4>", { class: "media-heading", text: "<%= @comment.content %>" })
+      $("<h4>", { class: "media-heading", text: "<%= @comment.content %>" }).append(
+        $("<a>", { class: "comment-delete pull-right" }).attr("data-comment-id", <%= @comment.id %>)
+        .click(function() {
+          if (confirm("Are you sure to delete it?")) {
+            $.ajax({
+              url: '/comments/' + <%= @comment.id %>,
+              type: 'DELETE',
+              success: removeComment
+            });
+          }
+        })
+        .append(
+          $("<span>", { class: "glyphicon glyphicon-remove" })
+        )
+      )
     ).append(
       "Posted <%= time_ago_in_words(@comment.created_at) %> ago."
     )
@@ -15,3 +29,7 @@ comment.append(
 
 $("#comments").append(comment);
 $("#comment_content").val('');
+
+var removeComment = function(id) {
+  $(".comment-" + id).remove();
+};
