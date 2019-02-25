@@ -17,10 +17,10 @@ Rails.application.routes.draw do
   resources :password_resets,     only: [:new, :create, :edit, :update]
   resources :relationships,       only: [:create, :destroy]
   resources :likes,               only: [:create, :destroy]
+  resources :comments,            only: [:destroy]
   resources :posts,               only: [:create, :destroy, :show] do
-    resources :comments, only: [:create, :destroy]
+    resources :comments, only: :create
   end
-  
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
