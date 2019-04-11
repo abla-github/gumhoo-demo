@@ -1,0 +1,12 @@
+<% provide(:title, 'All lists') %>
+<h1>All lists</h1>
+
+<%= link_to('NEW', new_list_path, class: "btn btn-default") %>
+
+<ul class="lists">
+  <% @lists.each do |list| %>
+    <li>
+      <%= list.name %> <%= link_to "DELETE", list_path(list), method: :delete, data: { confirm: 'Are you sure?' } %>
+    </li>
+  <% end %>
+</ul>

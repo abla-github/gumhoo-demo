@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+shopping_list:
+  name: "Shopping Time"
+  user: abla
+
+wedding_list:
+  name: "My Wedding"
+  user: lana
